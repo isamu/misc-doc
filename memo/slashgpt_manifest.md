@@ -45,6 +45,7 @@ LLMの動作検証やユーザへの例として、サンプルクエリを設�
    - Agent起動時（切替時）に表示され、promptにも渡されるシステムメッセージ
 
 #### prompt
+
 システムメッセージとしてLLM/GPTに渡すシステムプロンプト。
 
 - prompt (array of strings, required): The system prompts which define the agent (required)
@@ -53,13 +54,15 @@ LLMの動作検証やユーザへの例として、サンプルクエリを設�
       - {now}
         - "%Y%m%dT%H%M%SZ" 形式の日付
       - {resource}
-        - 後述するresource要素のファイルの中身に差し替えられる
-      -  {random}
+        - resource要素のファイルの中身に差し替えられる
+        - resource (string, optional): location of the resource file. Use {resource} to paste it into the prompt
+      - {random}
         - list内のデータをランダムに置換する
-- list (array of string, optional): {random} will put one of them randamly into the prompt
-- resource (string, optional): location of the resource file. Use {resource} to paste it into the prompt
+        - list (array of string, optional): {random} will put one of them randamly into the prompt
+
 
 #### query
+
 ユーザの入力をLLM/GPTにわたすときに、ユーザのメッセージ/クエリーを加工したり、funcitonsの設定をする
   
 - form (string): format string to extend user's query (e.g. "Write python code to {question}").
@@ -68,27 +71,33 @@ LLMの動作検証やユーザへの例として、サンプルクエリを設�
    - functionsの設定
 
 #### funcitonの戻り
+
 LLM/GPTからfunctionの結果が戻ってきた場合の動作を指定する。
 
-  actions (object, optional): Template-based function processor (see details below)
-    -> 分岐。
-     - rest
-     - graph
-     - template
-  Pythonのコードを実行する
-    notebook (boolean): create a new notebook at the beginning of each session (for jupyter2)
-       - 実行する 
-    module (string, optional): location of the Python script to be loaded for function calls
-      - codeを実行する
-    共通
-      result_form (string): format string to extend function call result.
-        jupyterを参照   
+動作は大きく分けて２つ。
+actionが指定されている場合は、actionに定義されているapiアクセスか、templateによる表示がされる
+notebook, moduleが指定されている場合はPythonのコードが実行される
 
-skip_function_result (boolean): skip the chat completion right after the function call.
+- actions (object, optional): Template-based function processor (see details below)
+  - actionsのkeyとfunctionの???がマッチしたものが実行される
+    - typeにより動作を指定する
+      - rest
+      - graphQL
+      - data_url
+      - message_template
+
+- notebook (boolean): create a new notebook at the beginning of each session (for jupyter2)
+   - notebookでPythonを実行する 
+- module (string, optional): location of the Python script to be loaded for function calls
+  - 指定されているPythonコードのファイルを実行する
+
+- result_form (string): format string to extend function call result.
+  - notebook, moduleの実行結果をformatする
+ 
+#### その他
+- skip_function_result (boolean): skip the chat completion right after the function call.
 
 
-
-
-embeddings
-  embeddings (object, optional):
-  name (string, optional): index name of the embedding vector database
+### embeddings
+- embeddings (object, optional):
+  - name (string, optional): index name of the embedding vector database
