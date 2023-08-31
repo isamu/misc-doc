@@ -1,2 +1,2 @@
-[インストール](./install.md)
-[マニフェスト](./manifest.md)
+- [インストール](./install.md)
+- [マニフェスト](./manifest.md)
