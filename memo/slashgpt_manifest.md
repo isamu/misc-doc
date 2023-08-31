@@ -1,17 +1,36 @@
+## manifest file
 #### 機能として未利用
-  about (string, optional): About the manifest (URL, email, github id, or twitter id)
+- about (string, optional): About the manifest (URL, email, github id, or twitter id)
+  - manifestファイルの説明
 
 #### model関連
-  model (string, optional): LLM model (such as "gpt-4-613", the default is "gpt-3-turbo")
-  temperature (string, optional): Temperature (the default is 0.7)
+- model (string, optional): LLM model (such as "gpt-4-613", the default is "gpt-3-turbo")
+  - そのmanifestで使うモデルを指定する
+- temperature (string, optional): Temperature (the default is 0.7)
+  - modelに渡すtemperature
 
 #### cli表示関連
- title (string, required): Title for the user to see
- bot (string, optional): Agent name
- you (string, optional): User name. The default is You({agent_name}).
+- title (string, required): Title for the user to see
+  - Agent起動時（切替時）に表示される
+```
+Activating: Main Dispatcher
+```
+- bot (string, optional): Agent name
+   - LLMからの応答時に表示される名前
+```
+botname: Hello, I am bot.
+```
+- you (string, optional): User name. The default is You({agent_name}).
+  - 入力のプロンプトや、functionの動作後、再度ユーザの入力を問い合わせる時などに表示される
+```
+You(simple)
+```
 
 #### Sample
-sample (string, optional): Sample question (type "/sample" to send it)
+- sample (string, optional): Sample question (type "/sample" to send it)
+  - 事前の用意するpromptへの問い合わせの内容を記述する
+  - prefixがsampleで始まるkeyは、全てsampleとして実行可能
+    - sample_1に記述すれば /sample_1 で利用可能
 
 #### cli表示＋アルファ
 intro (array of strings, optional): Introduction statements (will be randomly selected)
