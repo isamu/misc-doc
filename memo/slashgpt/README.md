@@ -1,2 +1,6 @@
 - [インストール](./install.md)
 - [マニフェスト](./manifest.md)
+- [設定について](./configs.md)
+- [ディレクトリー構成](./directories.md)
+- [プロンプトの使い方基礎](./basic_prompt.md)
+- [ファンクションズ](./functions.md)
