@@ -13,7 +13,7 @@ SlashGPTの使い方
 ### ソースをダウンロード
 
 ```
-https://github.com/snakajima/SlashGPT.git
+git clone https://github.com/snakajima/SlashGPT.git
 ```
 
 ### パッケージのインストール
