@@ -3,16 +3,46 @@
 
 #### 起動
 
+OSのコマンドラインから起動します。
+
 ```
 ./SlashGPT.py 
 ```
 
+```
+AssertionError: OPENAI_API_KEY environment variable is missing from .env
+```
+と出る場合は、OpenAPのAPI KEYが未設定なので、設定をして再度起動してください
+
+```
+You(dispatcher):
+```
+と出た場合は、起動成功です。
+
+以下、全てSlashGPTのプロンプトに入力をしてください。
 
 #### ヘルプ1
 
 ```
 /help
 ```
+SlashGPTの使い方が表示されます
+
+```
+/switch main:      Switch to the manifest set in main (default)
+/switch roles1:    Switch to the manifest set in roles1 (original)
+/switch roles2:    Switch to the manifest set in roles2
+~~~
+
+Agents:
+/aiagents     AI Agents
+/browser      Internet Browser
+/cal          Calendar
+~~~
+
+```
+
+前半はSlashGPTが用意している機能の一覧、後半のAgents以下はマニュフェストファイルで用意されているエージェントの一覧です。
 
 #### ヘルプ2
 
@@ -20,16 +50,90 @@
 /help {agent_name}
 ```
 
+各エージェントのヘルプです。実際にはヘルプではなくマニュフェストファイルの中身が表示されます。
+どのようなサンプルがあるかなどを確認することができます。
+
+```
+You(browser): /help spacex
+{
+  "title": "SpaceX Information",
+  "description": "Anything about SpaceX",
+  "bot": "spacex",
+  "about": "snakajima",
+  "temperature": 0,
+  "functions": "./resources/functions/graphql.json",
+  "resource": "./resources/templates/spacex.json",
+  "actions": {
+    "call_graphQL": {
+      "graphQL": true,
+      "url": "https://spacex-production.up.railway.app/graphql"
+    }
+  },
+  "model": "gpt-3.5-turbo-16k-0613",
+  "sample": "Who is CEO of SpaceX?",
+  "sample1": "What kind of information are you able to get?",
+  "sample2": "Get all the information of last 10 launches",
+  "sample3": "Next Launch",
+  "sample4": "Get names of all rockets",
+  "sample5": "List all launchpads",
+  "prompt": [
+    "You are an expert in GraphQL and use call_graphQL function to retrieve necessary information.",
+    "Ask for clarification if a user request is ambiguous.",
+    "Here is the schema of GraphQL query:",
+    "{resource}"
+  ]
+}
+```
+
+
 #### サンプルの動かし方
 
 ```
 /sample
 ````
 
+マニュフェストに優位されているサンプルを動作させます
+
+```
+You(spacex): /sample
+Who is CEO of SpaceX?
+{
+  "name": "call_graphQL",
+  "arguments": "{\n  \"query\": \"{ company { ceo } }\"\n}"
+}
+function(call_graphQL): {"company": {"ceo": "Elon Musk"}}
+spacex: The CEO of SpaceX is Elon Musk.
+```
+
 #### 自分で質問する
 
 ```
-例
+You(spacex): 宇宙に行くスケジュールを教えてください
+```
+ChatGPTを使うように質問をします。
+
+```
+You(spacex): 宇宙に行くスケジュールを教えてください
+{
+  "name": "call_graphQL",
+  "arguments": "{\n  \"query\": \"{ launchesUpcoming { mission_name launch_date_local } }\"\n}"
+}
+function(call_graphQL): {"launchesUpcoming": [{"mission_name": "USSF-44", "launch_date_local": "2022-11-01T09:41:00-04:00"}, {"mission_name": "Starlink 4-36 (v1.5)", "launch_date_local": "2022-10-20T10:50:00-04:00"}, {"mission_name": "Galaxy 33 (15R) & 34 (12R)", "launch_date_local": "2022-10-08T19:05:00-04:00"}, {"mission_name": "Hotbird 13F", "launch_date_local": "2022-10-15T01:22:00-04:00"}, {"mission_name": "Hotbird 13G", "launch_date_local": "2022-11-02T23:24:00-04:00"}, {"mission_name": "Galaxy 31 (23R) & 32 (17R)", "launch_date_local": "2022-11-07T19:00:00-05:00"}, {"mission_name": "Eutelsat 10B", "launch_date_local": "2022-11-14T19:00:00-05:00"}, {"mission_name": "ispace Mission 1 & Rashid", "launch_date_local": "2022-11-21T19:00:00-05:00"}, {"mission_name": "CRS-26", "launch_date_local": "2022-11-18T17:00:00-05:00"}, {"mission_name": "Starlink 4-37 (v1.5)", "launch_date_local": "2022-10-31T20:00:00-04:00"}, {"mission_name": "O3b mPower 1,2", "launch_date_local": "2022-10-31T20:00:00-04:00"}, {"mission_name": "SWOT", "launch_date_local": "2022-12-04T16:00:00-08:00"}, {"mission_name": "SES-18 & SES-19", "launch_date_local": "2022-10-31T20:00:00-04:00"}, {"mission_name": "Transporter-6", "launch_date_local": "2022-11-30T19:00:00-05:00"}, {"mission_name": "TTL-1", "launch_date_local": "2022-11-30T16:00:00-08:00"}, {"mission_name": "WorldView Legion 1 & 2", "launch_date_local": "2022-11-30T19:00:00-05:00"}, {"mission_name": "Viasat-3 & Arcturus", "launch_date_local": "2022-11-30T19:00:00-05:00"}, {"mission_name": "O3b mPower 3.4", "launch_date_local": "2022-11-30T19:00:00-05:00"}]}
+spacex: 以下は、SpaceXの将来の宇宙への打ち上げスケジュールの一部です：
+
+1. USSF-44 - 2022年11月1日 09:41（現地時間）
+2. Starlink 4-36 (v1.5) - 2022年10月20日 10:50（現地時間）
+3. Galaxy 33 (15R) & 34 (12R) - 2022年10月8日 19:05（現地時間）
+4. Hotbird 13F - 2022年10月15日 01:22（現地時間）
+5. Hotbird 13G - 2022年11月2日 23:24（現地時間）
+6. Galaxy 31 (23R) & 32 (17R) - 2022年11月7日 19:00（現地時間）
+7. Eutelsat 10B - 2022年11月14日 19:00（現地時間）
+8. ispace Mission 1 & Rashid - 2022年11月21日 19:00（現地時間）
+9. CRS-26 - 2022年11月18日 17:00（現地時間）
+10. Starlink 4-37 (v1.5) - 2022年10月31日 20:00（現地時間）
+
+なお、これは一部の予定であり、変更される可能性があります。最新の情報については、SpaceXの公式ウェブサイトや関連ニュースソースをご確認ください。
+
 ```
 
 ### マニフェストの切り替え
