@@ -7,3 +7,4 @@
 - [ディレクトリー構成](./directories.md)
 - [LLMエンジン](./llm_engine.md)
 - [SlashGPTをライブラリとして使う](./sample.md)
+- [自動化]
