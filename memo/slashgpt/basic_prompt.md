@@ -222,7 +222,7 @@ SlashGPTはエージェントごとに会話履歴をLLMに投げるので、履
 
 ### functions
 ```
-functions
+/functions
 ```
 
 エージェントに設定されてるfunctionsが出力されます
