@@ -1,7 +1,10 @@
  
-- lib - SlashGPTのプログラム一式
-- manifests - マニフェストファイル一式
-- config - llmの設定ファイル
+- lib
+  - SlashGPTのプログラム一式
+- manifests
+  - マニフェストファイル一式
+- config
+  - llm/llm engineの設定ファイル
 - resources
   - templates
     - resouceパラメータで読み込まれ、システムプロンプトの{resource}部分に置換される
@@ -15,12 +18,10 @@
   - functionsから利用するデータ
 - notebooks
   - notebooks = true時に読み込まれるipynb
-- output
-  - ログなどの出力先
 - plugins
   - pluginで利用するLLM engine
-- config
-  - llm/llm engineの設定ファイル
+- output
+  - ログなどの出力先
 - samples
   - SimpleGPT.pyやAgentGPT.pyなどのlib以下のmoduleを使ったサンプルプログラム
 - test
