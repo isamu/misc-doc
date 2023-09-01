@@ -12,7 +12,7 @@ SlashGPTの開発者はMacを使っているので、現時点ではMacでの利
 
 を入れておきます。
 
-# install
+# Install
 
 ### ソースをダウンロード
 

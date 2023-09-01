@@ -1,29 +1,33 @@
-## manifest file
-#### 機能として未利用
-- about (string, optional): About the manifest (URL, email, github id, or twitter id)
-  - manifestファイルの説明
+## Manifest file
 
-#### model関連
-manifestファイルごとに利用するLLMモデルを指定
+マニフェストファイル(jsonで記述されたSlashGPTの動作を定義するファイル）について解説します。
+このマニフェストで定義されたユーザと対話をするプロンプトボットをエージェントと呼びます。
+
+#### LLMモデル関連
+
+エージェントで利用するLLMモデルを指定
 
 - model (string, optional): LLM model (such as "gpt-4-613", the default is "gpt-3-turbo")
-  - そのmanifestで使うモデルを指定する
+  - そのエージェントで使うモデルを指定する
 - temperature (string, optional): Temperature (the default is 0.7)
-  - modelに渡すtemperature
+  - モデルに渡すtemperature
 
-#### cli表示関連
-SlashGPTのCLI動作時に、CLIの出力として使われる設定（LLM・GPTの動作に影響なし）
+#### CLI表示関連
+
+SlashGPTのCLI動作時に、CLIの出力として使われる設定（LLMエージェントの動作に影響なし）
 
 - title (string, required): Title for the user to see
   - Agent起動時（切替時）に表示される
 ```
 Activating: Main Dispatcher
 ```
+
 - bot (string, optional): Agent name
-   - LLMからの応答時に表示される名前
+   - LLMエージェントからの応答時に表示される名前
 ```
 botname: Hello, I am bot.
 ```
+
 - you (string, optional): User name. The default is You({agent_name}).
   - 入力のプロンプトや、functionの動作後、再度ユーザの入力を問い合わせる時などに表示される
 ```
@@ -32,7 +36,7 @@ You(simple)
 
 #### Sample
 
-LLMの動作検証やユーザへの例として、サンプルクエリを設定（LLM・GPTの動作に影響なし）
+LLMの動作検証やユーザへの例として、サンプルクエリ（LLMエージェントの動作に影響なし）
 
 - sample (string, optional): Sample question (type "/sample" to send it)
   - 事前の用意するpromptへの問い合わせの内容を記述する
@@ -44,9 +48,9 @@ LLMの動作検証やユーザへの例として、サンプルクエリを設�
 - intro (array of strings, optional): Introduction statements (will be randomly selected)
    - Agent起動時（切替時）に表示され、promptにも渡されるシステムメッセージ
 
-#### prompt
+#### システムプロンプト
 
-システムメッセージとしてLLM/GPTに渡すシステムプロンプト。
+システムメッセージとしてLLMエージェントに渡すシステムプロンプト
 
 - prompt (array of strings, required): The system prompts which define the agent (required)
   - LLMに渡すシステムプロンプトの文
@@ -61,18 +65,18 @@ LLMの動作検証やユーザへの例として、サンプルクエリを設�
         - list (array of string, optional): {random} will put one of them randamly into the prompt
 
 
-#### query
+#### ユーザの入力の変換
 
-ユーザの入力をLLM/GPTにわたすときに、ユーザのメッセージ/クエリーを加工したり、funcitonsの設定をする
+ユーザの入力をLLMエージェントにわたすときに、ユーザのメッセージ/クエリーを加工したり、funcitonsの設定をする
   
 - form (string): format string to extend user's query (e.g. "Write python code to {question}").
    - LLMに渡すメッセージ。{question}部分がユーザの入力となるため、入力をラップして渡すことができる
 - functions (string, optional): location of the function definitions
-   - functionsの設定
+   - LLMに渡すfunctionsの設定
 
-#### funcitonの戻り
+#### funcitonの返却値関連
 
-LLM/GPTからfunctionの結果が戻ってきた場合の動作を指定する。
+LLMエージェントからfunctionの結果が戻ってきた場合の動作を指定する。
 
 動作は大きく分けて２つ。
 actionが指定されている場合は、actionに定義されているapiアクセスか、templateによる表示がされる
@@ -95,9 +99,20 @@ notebook, moduleが指定されている場合はPythonのコードが実行さ�
   - notebook, moduleの実行結果をformatする
  
 #### その他
-- skip_function_result (boolean): skip the chat completion right after the function call.
 
+- skip_function_result (boolean): skip the chat completion right after the function call.
+  - 通常はfunctionの戻り値はそのままLLMエージェントにわたすがその動作をSKIPする
 
 ### embeddings
+
+embeddings関連の設定
+
 - embeddings (object, optional):
   - name (string, optional): index name of the embedding vector database
+
+#### 機能として未利用
+
+- about (string, optional): About the manifest (URL, email, github id, or twitter id)
+  - マニフェストファイルなのか説明しています。
+
+
