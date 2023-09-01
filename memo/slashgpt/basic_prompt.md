@@ -72,4 +72,31 @@
 /switch {dir_name}
 ```
 
+### テスト！！
+
+```
+/autotest
+```
+
+### ログ
+
+```
+/verbose
+```
+
+### 音声出力
+```
+/audio
+```
+
+### functions
+```
+functions
+```
+
+### 履歴のインポート
+```
+/import
+```
+
 T.B.D.
