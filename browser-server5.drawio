@@ -145,9 +145,6 @@
             <mxPoint x="499" y="522" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KkHVSNdkCMVWBzn8ZBwk-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="KkHVSNdkCMVWBzn8ZBwk-5" target="KkHVSNdkCMVWBzn8ZBwk-2" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
         <mxCell id="KkHVSNdkCMVWBzn8ZBwk-5" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
           <mxGeometry x="515" y="470" width="30" height="30" as="geometry" />
         </mxCell>
